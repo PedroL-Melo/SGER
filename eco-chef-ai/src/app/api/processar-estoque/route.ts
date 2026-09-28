@@ -1,12 +1,7 @@
 import { generateObject } from 'ai';
-import { createOpenAI } from '@ai-sdk/openai';
+import { createGroq } from '@ai-sdk/groq';
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
-
-const groq = createOpenAI({
-  baseURL: 'https://api.groq.com/openai/v1',
-  apiKey: process.env.GROQ_API_KEY,
-});
 
 export async function POST(req: Request) {
   try {
@@ -16,10 +11,13 @@ export async function POST(req: Request) {
       throw new Error('Chave da Groq não configurada no servidor.');
     }
 
+    const groq = createGroq({
+      apiKey: process.env.GROQ_API_KEY,
+    });
+
     const { object } = await generateObject({
-      model: groq('openai/gpt-oss-20b'), 
+      model: groq('llama-3.1-8b-instant'), 
       maxRetries: 0,
-      maxTokens: 500,
       schema: z.object({
         itens_inseridos: z.array(z.object({
           nome_insumo: z.string().describe('Nome do produto/ingrediente, ex: Alcatra, Arroz, Tomate.'),

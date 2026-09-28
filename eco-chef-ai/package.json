@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.82",
+    "@ai-sdk/groq": "^4.0.51",
     "@ai-sdk/openai": "^4.0.78",
     "@supabase/supabase-js": "^2.117.2",
     "ai": "^7.0.116",
