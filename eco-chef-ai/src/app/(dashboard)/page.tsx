@@ -34,32 +34,15 @@ export default function DashboardPage() {
     const fetchFinanceiro = async () => {
       setLoading(true);
       try {
-        // 1. Gráfico (Relatório Financeiro Mensal consolidado)
-        const { data: relatorios } = await supabase
-          .from('relatorio_financeiro')
-          .select('*')
-          .order('mes', { ascending: true })
-          .limit(6);
-
-        if (relatorios) {
-          const formatted = relatorios.map(r => ({
-            mes: new Date(r.mes).toLocaleDateString('pt-BR', { month: 'short', timeZone: 'UTC' }),
-            faturamento: Number(r.faturamento),
-            lucro_liquido: Number(r.lucro_liquido)
-          }));
-          setData(formatted);
-        }
-
-        // 2. Custo da Folha de Pagamento real (Calculado e salvo no banco)
+        // 1. Custo da Folha de Pagamento real (Calculado e salvo no banco)
         const { data: funcs } = await supabase.from('funcionarios').select('custo_total, salario_base');
         let totalFolha = 0;
         if (funcs) {
           totalFolha = funcs.reduce((acc, f) => {
-            // Se tiver o custo_total atualizado usa ele, senão faz um fallback temporário (caso tenha ficado registros velhos)
             if (f.custo_total && f.custo_total > 0) {
               return acc + Number(f.custo_total);
             }
-            return acc + (Number(f.salario_base) * 1.328); // Fallback para registros antes da atualização (Simples Nacional)
+            return acc + (Number(f.salario_base) * 1.328);
           }, 0);
         }
 
@@ -68,37 +51,63 @@ export default function DashboardPage() {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const firstDay = `${year}-${month}-01`;
 
-        // 3. Custos de Estoque e Compras
+        // 2. Custos de Estoque e Compras
         const { data: estoque } = await supabase.from('estoque').select('custo_total');
         let totalEstoque = 0;
         if (estoque) {
           totalEstoque = estoque.reduce((acc, e) => acc + Number(e.custo_total), 0);
         }
 
-        // 4. Faturamento do Mês Atual e Despesas Extras
+        // 3. Faturamento do Mês Atual e Despesas Extras
         const { data: diarios } = await supabase
           .from('relatorio_diario')
-          .select('vendas_total, despesas_total')
-          .gte('data_referencia', firstDay);
+          .select('vendas_total, despesas_total, created_at, data_referencia')
+          .order('created_at', { ascending: false });
         
         let totalFat = 0;
         let totalDespesasDiarias = 0;
+        
         if (diarios) {
-          totalFat = diarios.reduce((acc, d) => acc + Number(d.vendas_total), 0);
-          totalDespesasDiarias = diarios.reduce((acc, d) => acc + (d.despesas_total ? Number(d.despesas_total) : 0), 0);
+          // KPIs: Apenas do mês atual
+          const diariosMesAtual = diarios.filter(d => (d.data_referencia || d.created_at).startsWith(`${year}-${month}`));
+          totalFat = diariosMesAtual.reduce((acc, d) => acc + Number(d.vendas_total), 0);
+          totalDespesasDiarias = diariosMesAtual.reduce((acc, d) => acc + (d.despesas_total ? Number(d.despesas_total) : 0), 0);
+
+          // GRÁFICO DINÂMICO DOS ÚLTIMOS 7 DIAS
+          const ultimos7Dias = diarios.slice(0, 7).reverse();
+          const folhaDiaria = totalFolha / 30;
+
+          const formattedGraph = ultimos7Dias.map(r => {
+            const faturamentoDia = Number(r.vendas_total) || 0;
+            const despesaDia = Number(r.despesas_total) || 0;
+            const lucroDia = faturamentoDia - despesaDia - folhaDiaria;
+
+            const dataObj = new Date(r.created_at);
+            const diaFormatado = `${dataObj.getDate()}/${dataObj.getMonth() + 1}`;
+
+            return {
+              mes: diaFormatado, // Reaproveitando a propriedade 'mes' do gráfico (que na verdade é o eixo X)
+              faturamento: faturamentoDia,
+              lucro_liquido: lucroDia
+            };
+          });
+
+          setData(formattedGraph);
         }
         
         setFaturamentoMes(totalFat);
 
-        // Custo Total = Folha + Compras de Estoque + Despesas Extras/Emergências
+        // 4. Custo Total Operacional (Folha + Estoque + Despesas Extras do diário)
         const custoTotalOperacao = totalFolha + totalEstoque + totalDespesasDiarias;
-        setFolhaPagamento(custoTotalOperacao); // Reusando o mesmo State para o Custo Total Geral na UI
+        setFolhaPagamento(custoTotalOperacao);
 
         // 5. Cálculo da Margem Real
         if (totalFat > 0) {
           const lucroReal = totalFat - custoTotalOperacao;
           const margem = (lucroReal / totalFat) * 100;
           setMargemLucro(Number(margem.toFixed(1)));
+        } else {
+          setMargemLucro(0);
         }
 
       } catch (err) {
@@ -110,6 +119,7 @@ export default function DashboardPage() {
 
     fetchFinanceiro();
   }, []);
+
 
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
