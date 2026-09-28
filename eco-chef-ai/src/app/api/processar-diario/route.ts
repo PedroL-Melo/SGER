@@ -1,5 +1,5 @@
 import { generateObject } from 'ai';
-import { google } from '@ai-sdk/google';
+import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 
@@ -7,12 +7,12 @@ export async function POST(req: Request) {
   try {
     const { relato } = await req.json();
 
-    if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
-      throw new Error('Chave do Gemini não configurada no servidor.');
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('Chave da OpenAI não configurada no servidor.');
     }
 
     const { object } = await generateObject({
-      model: google('gemini-3.8-flash'), 
+      model: openai('gpt-4o-mini'), 
       schema: z.object({
         vendas_total: z.number().describe('O valor total em dinheiro (R$) VENDIDO no dia (Faturamento). Extraia do texto ou aproxime. Se não mencionado, retorne 0.'),
         despesas_total: z.number().describe('O valor total em dinheiro (R$) GASTO com consertos, compras extras de equipamento (ex: chapa), multas ou emergências (Despesas). ATENÇÃO: Se ele falou que "gastou" ou "comprou" algo que não seja ingrediente normal, some aqui. Se não mencionado, retorne 0.'),

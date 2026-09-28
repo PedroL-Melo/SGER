@@ -97,7 +97,7 @@ export default function RelatoriosPage() {
       setRelato(''); // limpa o form
     } catch (err: any) {
       console.error(err);
-      alert('⚠️ Os servidores do Google Gemini estão sobrecarregados no momento (Erro 503: High Demand). Tente novamente em alguns minutos.');
+      alert('⚠️ Erro ao processar relatório (Verifique a API Key da OpenAI).');
     } finally {
       setLoading(false);
     }

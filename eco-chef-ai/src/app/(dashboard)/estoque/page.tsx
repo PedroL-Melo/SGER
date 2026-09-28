@@ -131,7 +131,7 @@ export default function EstoquePage() {
       setRelato('');
     } catch (err: any) {
       console.error(err);
-      alert('⚠️ Os servidores do Google Gemini estão sobrecarregados no momento (Erro 503: High Demand). Use o botão "Novo Insumo Manual" enquanto a rede não estabiliza.');
+      alert('⚠️ Os servidores da OpenAI estão sobrecarregados no momento. Tente novamente em alguns segundos ou use o Lançamento Manual.');
     } finally {
       setIsProcessing(false);
     }
