@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     }
 
     const { object } = await generateObject({
-      model: google('gemini-flash-latest'), 
+      model: google('gemini-3.8-flash'), 
       schema: z.object({
         vendas_total: z.number().describe('O valor total em dinheiro (R$) VENDIDO no dia (Faturamento). Extraia do texto ou aproxime. Se não mencionado, retorne 0.'),
         despesas_total: z.number().describe('O valor total em dinheiro (R$) GASTO com consertos, compras extras de equipamento (ex: chapa), multas ou emergências (Despesas). ATENÇÃO: Se ele falou que "gastou" ou "comprou" algo que não seja ingrediente normal, some aqui. Se não mencionado, retorne 0.'),
