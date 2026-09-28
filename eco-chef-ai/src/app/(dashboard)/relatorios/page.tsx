@@ -97,7 +97,7 @@ export default function RelatoriosPage() {
       setRelato(''); // limpa o form
     } catch (err: any) {
       console.error(err);
-      alert('⚠️ Erro ao processar relatório (Verifique a API Key da OpenAI).');
+      alert('⚠️ Os servidores do Google Gemini estão sobrecarregados no momento. Aguarde alguns segundos e tente novamente.');
     } finally {
       setLoading(false);
     }

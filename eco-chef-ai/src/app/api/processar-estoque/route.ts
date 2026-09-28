@@ -1,5 +1,5 @@
 import { generateObject } from 'ai';
-import { openai } from '@ai-sdk/openai';
+import { google } from '@ai-sdk/google';
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 
@@ -7,12 +7,13 @@ export async function POST(req: Request) {
   try {
     const { relato } = await req.json();
 
-    if (!process.env.OPENAI_API_KEY) {
-      throw new Error('Chave da OpenAI não configurada no servidor.');
+    if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
+      throw new Error('Chave do Gemini não configurada no servidor.');
     }
 
     const { object } = await generateObject({
-      model: openai('gpt-4o-mini'), 
+      model: google('gemini-flash-latest'), 
+      maxRetries: 0,
       schema: z.object({
         itens_inseridos: z.array(z.object({
           nome_insumo: z.string().describe('Nome do produto/ingrediente, ex: Alcatra, Arroz, Tomate.'),

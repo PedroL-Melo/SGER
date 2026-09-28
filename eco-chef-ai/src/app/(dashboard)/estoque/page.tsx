@@ -131,7 +131,7 @@ export default function EstoquePage() {
       setRelato('');
     } catch (err: any) {
       console.error(err);
-      alert('⚠️ Os servidores da OpenAI estão sobrecarregados no momento. Tente novamente em alguns segundos ou use o Lançamento Manual.');
+      alert('⚠️ Os servidores do Google Gemini estão sobrecarregados no momento. Tente novamente em alguns segundos ou use o Lançamento Manual.');
     } finally {
       setIsProcessing(false);
     }
