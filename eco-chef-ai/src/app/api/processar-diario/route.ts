@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     }
 
     const { object } = await generateObject({
-      model: google('gemini-flash-latest'), 
+      model: google('gemini-3.8-flash'), 
       maxRetries: 0,
       schema: z.object({
         vendas_total: z.number().describe('O valor total em dinheiro (R$) VENDIDO no dia (Faturamento). Extraia do texto ou aproxime. Se não mencionado, retorne 0.'),
