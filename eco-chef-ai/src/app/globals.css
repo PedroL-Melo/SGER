@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #f8fafc; /* slate-50 */
+    --foreground: #020617; /* slate-950 */
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
