@@ -17,8 +17,9 @@ export async function POST(req: Request) {
     }
 
     const { object } = await generateObject({
-      model: groq('llama-3.1-8b-instant'), 
+      model: groq('openai/gpt-oss-20b'), 
       maxRetries: 0,
+      maxTokens: 500,
       schema: z.object({
         vendas_total: z.number().describe('O valor total em dinheiro (R$) VENDIDO no dia (Faturamento). Extraia do texto ou aproxime. Se não mencionado, retorne 0.'),
         despesas_total: z.number().describe('O valor total em dinheiro (R$) GASTO com consertos, compras extras de equipamento (ex: chapa), multas ou emergências (Despesas). ATENÇÃO: Se ele falou que "gastou" ou "comprou" algo que não seja ingrediente normal, some aqui. Se não mencionado, retorne 0.'),

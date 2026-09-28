@@ -17,8 +17,9 @@ export async function POST(req: Request) {
     }
 
     const { object } = await generateObject({
-      model: groq('llama-3.1-8b-instant'), 
+      model: groq('openai/gpt-oss-20b'), 
       maxRetries: 0,
+      maxTokens: 500,
       schema: z.object({
         itens_inseridos: z.array(z.object({
           nome_insumo: z.string().describe('Nome do produto/ingrediente, ex: Alcatra, Arroz, Tomate.'),
