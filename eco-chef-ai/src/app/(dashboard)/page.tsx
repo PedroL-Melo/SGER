@@ -50,11 +50,17 @@ export default function DashboardPage() {
           setData(formatted);
         }
 
-        // 2. Custo da Folha de Pagamento real (+70%)
-        const { data: funcs } = await supabase.from('funcionarios').select('salario_base');
+        // 2. Custo da Folha de Pagamento real (Calculado e salvo no banco)
+        const { data: funcs } = await supabase.from('funcionarios').select('custo_total, salario_base');
         let totalFolha = 0;
         if (funcs) {
-          totalFolha = funcs.reduce((acc, f) => acc + (Number(f.salario_base) * 1.7), 0);
+          totalFolha = funcs.reduce((acc, f) => {
+            // Se tiver o custo_total atualizado usa ele, senão faz um fallback temporário (caso tenha ficado registros velhos)
+            if (f.custo_total && f.custo_total > 0) {
+              return acc + Number(f.custo_total);
+            }
+            return acc + (Number(f.salario_base) * 1.328); // Fallback para registros antes da atualização (Simples Nacional)
+          }, 0);
         }
 
         const date = new Date();
