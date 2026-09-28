@@ -1,18 +1,23 @@
 import { generateObject } from 'ai';
-import { google } from '@ai-sdk/google';
+import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
+
+const groq = createOpenAI({
+  baseURL: 'https://api.groq.com/openai/v1',
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 export async function POST(req: Request) {
   try {
     const { relato } = await req.json();
 
-    if (!process.env.GOOGLE_GENERATIVE_AI_API_KEY) {
-      throw new Error('Chave do Gemini não configurada no servidor.');
+    if (!process.env.GROQ_API_KEY) {
+      throw new Error('Chave da Groq não configurada no servidor.');
     }
 
     const { object } = await generateObject({
-      model: google('gemini-3.5-flash-lite'), 
+      model: groq('llama-3.1-8b-instant'), 
       maxRetries: 0,
       schema: z.object({
         vendas_total: z.number().describe('O valor total em dinheiro (R$) VENDIDO no dia (Faturamento). Extraia do texto ou aproxime. Se não mencionado, retorne 0.'),
