@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     }
 
     const { object } = await generateObject({
-      model: google('gemini-3.8-flash'), 
+      model: google('gemini-flash-latest'), 
       schema: z.object({
         itens_inseridos: z.array(z.object({
           nome_insumo: z.string().describe('Nome do produto/ingrediente, ex: Alcatra, Arroz, Tomate.'),
