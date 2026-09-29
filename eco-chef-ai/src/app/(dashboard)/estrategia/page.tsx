@@ -163,7 +163,7 @@ ${rhResumo}
           {chat.length === 0 && (
             <div className="h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto opacity-70">
               <MessageSquare className="w-12 h-12 text-slate-300 mb-4" />
-              <h2 className="text-xl font-semibold text-zinc-200 mb-2">Qual o plano para hoje, Chefe?</h2>
+              <h2 className="text-xl font-semibold text-zinc-200 mb-2">Qual o plano para hoje, Ana?</h2>
               <p className="text-zinc-400 text-sm">
                 Eu já analisei sua Folha de Pagamento, seu Estoque e o Faturamento que você lançou.
                 Faça uma pergunta livre ou escolha um atalho abaixo.
