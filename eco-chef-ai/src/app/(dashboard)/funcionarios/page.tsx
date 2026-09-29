@@ -13,6 +13,7 @@ interface Funcionario {
   custo_vt: number;
   custo_vr: number;
   custo_total: number;
+  observacoes?: string;
   status: string;
 }
 
@@ -29,7 +30,8 @@ export default function FuncionariosPage() {
     regime_contratacao: 'CLT (Simples Nacional)',
     salario_base: '',
     custo_vt: '',
-    custo_vr: ''
+    custo_vr: '',
+    observacoes: ''
   });
 
   useEffect(() => {
@@ -92,6 +94,7 @@ export default function FuncionariosPage() {
       custo_vt: vt,
       custo_vr: vr,
       custo_total: calculo.total,
+      observacoes: formData.observacoes,
       status: 'ativo'
     };
 
@@ -205,6 +208,11 @@ export default function FuncionariosPage() {
                         <td className="px-6 py-4">
                           <p className="font-medium text-slate-900 dark:text-slate-200">{func.nome}</p>
                           <p className="text-xs text-slate-500">{func.cargo}</p>
+                          {func.observacoes && (
+                            <p className="text-[11px] text-red-500 mt-1 italic truncate max-w-[200px]" title={func.observacoes}>
+                              ⚠️ {func.observacoes}
+                            </p>
+                          )}
                         </td>
                         <td className="px-6 py-4">
                           <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${
@@ -356,6 +364,17 @@ export default function FuncionariosPage() {
                       className="w-full rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-black py-2.5 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10"
                     />
                   </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-sm font-medium text-slate-700 dark:text-zinc-300">Anotações / Ocorrências RH</label>
+                  <textarea
+                    value={formData.observacoes}
+                    onChange={(e) => setFormData({...formData, observacoes: e.target.value})}
+                    placeholder="Ex: Histórico de faltas, promoções, atestados..."
+                    rows={3}
+                    className="w-full rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-black py-2.5 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/10 resize-none"
+                  />
                 </div>
               </div>
 
