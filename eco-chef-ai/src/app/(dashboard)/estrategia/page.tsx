@@ -14,6 +14,9 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import ReactMarkdown from 'react-markdown';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 
 export default function EstrategiaPage() {
   const [contexto, setContexto] = useState<string>('');
@@ -194,7 +197,12 @@ ${rhResumo}
                 {msg.role === 'user' ? (
                   <p className="whitespace-pre-wrap">{msg.content}</p>
                 ) : (
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  <ReactMarkdown 
+                    remarkPlugins={[remarkMath]} 
+                    rehypePlugins={[rehypeKatex]}
+                  >
+                    {msg.content}
+                  </ReactMarkdown>
                 )}
               </div>
             </div>
