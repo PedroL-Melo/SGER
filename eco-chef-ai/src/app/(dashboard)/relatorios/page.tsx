@@ -110,35 +110,35 @@ export default function RelatoriosPage() {
     new Date(dateStr).toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' });
 
   return (
-    <div className="min-h-screen p-4 md:p-8 bg-slate-50">
+    <div className="min-h-screen p-4 md:p-8 bg-zinc-950">
       <div className="max-w-4xl mx-auto space-y-8">
         
         {/* TOPO: Input com IA */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden relative">
-          <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
+        <div className="bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm overflow-hidden relative">
+          <div className="absolute top-0 left-0 w-1 h-full bg-emerald-500/100"></div>
           <div className="p-6 md:p-8">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-emerald-50 rounded-xl text-emerald-600">
+              <div className="p-2 bg-emerald-500/10 rounded-xl text-emerald-400">
                 <BrainCircuit className="w-6 h-6" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900 tracking-tight">Diário de Operação (IA)</h1>
-                <p className="text-sm text-slate-500">Escreva como o humano fala. A IA se encarrega de organizar os dados.</p>
+                <h1 className="text-xl font-bold text-white tracking-tight">Diário de Operação (IA)</h1>
+                <p className="text-sm text-zinc-400">Escreva como o humano fala. A IA se encarrega de organizar os dados.</p>
               </div>
             </div>
 
             <form onSubmit={handleProcessarRelato}>
-              <div className="bg-slate-50 border border-slate-200 rounded-xl p-1 mb-4">
+              <div className="bg-zinc-950 border border-zinc-800 rounded-xl p-1 mb-4">
                 <textarea
                   required
                   value={relato}
                   onChange={(e) => setRelato(e.target.value)}
                   placeholder="Ex: Hoje o dia foi corrido. Fechamos em R$ 4500 de vendas, mas o Ribamar faltou e a chapa deu problema na hora do almoço. Atendemos umas 120 pessoas."
-                  className="w-full bg-transparent resize-none p-4 text-slate-700 focus:outline-none min-h-[120px] text-base"
+                  className="w-full bg-transparent resize-none p-4 text-zinc-200 focus:outline-none min-h-[120px] text-base"
                 />
               </div>
               <div className="flex justify-between items-center">
-                <p className="text-xs text-slate-400 max-w-[60%]">
+                <p className="text-xs text-zinc-500 max-w-[60%]">
                   Dica: Mencione valores de vendas, faltas de funcionários e imprevistos.
                 </p>
                 <button 
@@ -165,45 +165,45 @@ export default function RelatoriosPage() {
 
         {/* FEED DE RELATÓRIOS (CONSULTA) */}
         <div className="space-y-6">
-          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-slate-400" />
+          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <Calendar className="w-5 h-5 text-zinc-500" />
             Histórico de Diários Processados
           </h2>
 
           {fetchingHistorico ? (
-            <div className="text-center py-12 text-slate-400 flex flex-col items-center">
+            <div className="text-center py-12 text-zinc-500 flex flex-col items-center">
               <Loader2 className="w-8 h-8 animate-spin mb-4 text-slate-300" />
               <p>Carregando histórico do banco de dados...</p>
             </div>
           ) : historico.length === 0 ? (
-            <div className="bg-white border border-slate-200 rounded-2xl p-12 text-center shadow-sm">
-              <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-12 text-center shadow-sm">
+              <div className="w-16 h-16 bg-zinc-950 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
                 <FileText className="w-8 h-8 text-slate-300" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">Nenhum relatório ainda</h3>
-              <p className="text-slate-500 text-sm">
+              <h3 className="text-lg font-bold text-white mb-1">Nenhum relatório ainda</h3>
+              <p className="text-zinc-400 text-sm">
                 Escreva seu primeiro diário acima para ver a Inteligência Artificial em ação organizando os dados.
               </p>
             </div>
           ) : (
             historico.map((item, idx) => (
-              <div key={item.id || idx} className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+              <div key={item.id || idx} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                   
                   {/* Info Esquerda */}
                   <div className="flex-1 space-y-4">
                     <div>
-                      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+                      <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-1">
                         {formatDate(item.data_referencia)}
                       </p>
-                      <p className="text-slate-900 text-lg leading-relaxed">
+                      <p className="text-white text-lg leading-relaxed">
                         {item.resumo_ia}
                       </p>
                     </div>
 
-                    <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                      <p className="text-xs font-medium text-slate-500 mb-2 uppercase tracking-wide">Relato Original</p>
-                      <p className="text-slate-600 text-sm italic border-l-2 border-slate-300 pl-3">
+                    <div className="bg-zinc-950 rounded-xl p-4 border border-slate-100">
+                      <p className="text-xs font-medium text-zinc-400 mb-2 uppercase tracking-wide">Relato Original</p>
+                      <p className="text-zinc-300 text-sm italic border-l-2 border-zinc-700 pl-3">
                         "{item.texto_original}"
                       </p>
                     </div>
@@ -211,26 +211,26 @@ export default function RelatoriosPage() {
 
                   {/* Info Direita (Métricas estruturadas pela IA) */}
                   <div className="w-full md:w-64 space-y-3 shrink-0">
-                    <div className="flex items-center justify-between p-3 bg-emerald-50 rounded-xl border border-emerald-100">
-                      <div className="flex items-center gap-2 text-emerald-700">
+                    <div className="flex items-center justify-between p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                      <div className="flex items-center gap-2 text-emerald-300">
                         <TrendingUp className="w-4 h-4" />
                         <span className="text-xs font-semibold">Vendas (Entrada)</span>
                       </div>
-                      <span className="font-bold text-emerald-800">{formatCurrency(item.vendas_total)}</span>
+                      <span className="font-bold text-emerald-400">{formatCurrency(item.vendas_total)}</span>
                     </div>
 
                     {(item.despesas_total && item.despesas_total > 0) ? (
-                      <div className="flex items-center justify-between p-3 bg-red-50 rounded-xl border border-red-100">
-                        <div className="flex items-center gap-2 text-red-700">
+                      <div className="flex items-center justify-between p-3 bg-red-500/10 rounded-xl border border-red-500/20">
+                        <div className="flex items-center gap-2 text-red-300">
                           <TrendingDown className="w-4 h-4" />
                           <span className="text-xs font-semibold">Despesas (Saída)</span>
                         </div>
-                        <span className="font-bold text-red-800">{formatCurrency(item.despesas_total)}</span>
+                        <span className="font-bold text-red-400">{formatCurrency(item.despesas_total)}</span>
                       </div>
                     ) : null}
 
-                    <div className="flex items-center justify-between p-3 bg-blue-50 rounded-xl border border-blue-100">
-                      <div className="flex items-center gap-2 text-blue-700">
+                    <div className="flex items-center justify-between p-3 bg-blue-500/10 rounded-xl border border-blue-100">
+                      <div className="flex items-center gap-2 text-blue-400">
                         <Users className="w-4 h-4" />
                         <span className="text-xs font-semibold">Fluxo</span>
                       </div>
@@ -238,8 +238,8 @@ export default function RelatoriosPage() {
                     </div>
 
                     {(item.ocorrencias && item.ocorrencias.length > 0) ? (
-                      <div className="p-3 bg-amber-50 rounded-xl border border-amber-100">
-                        <div className="flex items-center gap-2 text-amber-700 mb-2">
+                      <div className="p-3 bg-amber-500/10 rounded-xl border border-amber-100">
+                        <div className="flex items-center gap-2 text-amber-400 mb-2">
                           <AlertTriangle className="w-4 h-4" />
                           <span className="text-xs font-semibold">Ocorrências Extraídas</span>
                         </div>
@@ -253,7 +253,7 @@ export default function RelatoriosPage() {
                         </ul>
                       </div>
                     ) : (
-                      <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-center gap-2 text-slate-500">
+                      <div className="p-3 bg-zinc-950 rounded-xl border border-zinc-800 flex items-center justify-center gap-2 text-zinc-400">
                         <CheckCircle2 className="w-4 h-4" />
                         <span className="text-xs font-medium">Sem ocorrências graves</span>
                       </div>
