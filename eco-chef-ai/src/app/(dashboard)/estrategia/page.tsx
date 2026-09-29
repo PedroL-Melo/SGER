@@ -120,25 +120,25 @@ ${rhResumo}
       icon: <Wallet className="w-5 h-5 text-emerald-500" />,
       titulo: "Raio-X de Preços",
       prompt: "Analise a precificação do meu prato principal. Ele custa R$ X. Com base na minha folha e estoque atual, estou tendo lucro?",
-      cor: "bg-emerald-500/10 border-emerald-500/20 hover:border-emerald-300"
+      cor: "bg-emerald-500/10 border-emerald-500/20 hover:border-emerald-500/40"
     },
     {
       icon: <TrendingDown className="w-5 h-5 text-red-500" />,
       titulo: "Detetive de Desperdício",
       prompt: "Audite minhas compras. O valor do meu estoque condiz com o meu faturamento atual? Onde posso cortar gastos?",
-      cor: "bg-red-500/10 border-red-500/20 hover:border-red-300"
+      cor: "bg-red-500/10 border-red-500/20 hover:border-red-500/40"
     },
     {
       icon: <Users className="w-5 h-5 text-blue-500" />,
       titulo: "Análise de Equipe (RH)",
       prompt: "Com base nas observações de RH e nos custos da minha equipe atual, eu devo demitir ou contratar alguém para melhorar a margem?",
-      cor: "bg-blue-500/10 border-blue-100 hover:border-blue-300"
+      cor: "bg-blue-500/10 border-blue-500/20 hover:border-blue-500/40"
     },
     {
       icon: <Target className="w-5 h-5 text-purple-500" />,
       titulo: "Ponto de Equilíbrio",
       prompt: "Calcule meu ponto de equilíbrio (Break-even). Quanto eu preciso faturar neste mês só para pagar os custos atuais?",
-      cor: "bg-purple-50 border-purple-100 hover:border-purple-300"
+      cor: "bg-purple-500/10 border-purple-500/20 hover:border-purple-500/40"
     }
   ];
 
